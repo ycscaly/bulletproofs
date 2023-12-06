@@ -16,7 +16,7 @@ use crate::generators::{BulletproofGens, PedersenGens};
 /// A commitment to the bits of a party's value.
 #[derive(Serialize, Deserialize, Copy, Clone, Debug)]
 pub struct BitCommitment {
-    pub(super) V_j: CompressedRistretto,
+    pub V_j: CompressedRistretto,
     pub(super) A_j: RistrettoPoint,
     pub(super) S_j: RistrettoPoint,
 }
