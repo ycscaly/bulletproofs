@@ -208,7 +208,7 @@ pub struct DealerAwaitingProofShares<'a, 'b> {
     bp_gens: &'b BulletproofGens,
     pc_gens: &'b PedersenGens,
     bit_challenge: BitChallenge,
-    bit_commitments: Vec<BitCommitment>,
+    pub bit_commitments: Vec<BitCommitment>,
     poly_challenge: PolyChallenge,
     poly_commitments: Vec<PolyCommitment>,
     A: RistrettoPoint,
