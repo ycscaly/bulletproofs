@@ -111,13 +111,13 @@ impl RangeProof {
     ///
     /// // The proof can be chained to an existing transcript.
     /// // Here we create a transcript with a doctest domain separator.
-    /// let mut prover_transcript = Transcript::new(b"doctest example");
+    /// let prover_transcript = Transcript::new(b"doctest example");
     ///
     /// // Create a 32-bit rangeproof.
     /// let (proof, committed_value) = RangeProof::prove_single(
-    ///     &bp_gens,
-    ///     &pc_gens,
-    ///     &mut prover_transcript,
+    ///     bp_gens.clone(),
+    ///     pc_gens.clone(),
+    ///     prover_transcript,
     ///     secret_value,
     ///     &blinding,
     ///     32,
@@ -133,9 +133,9 @@ impl RangeProof {
     /// # }
     /// ```
     pub fn prove_single_with_rng<T: RngCore + CryptoRng>(
-        bp_gens: &BulletproofGens,
-        pc_gens: &PedersenGens,
-        transcript: &mut Transcript,
+        bp_gens: BulletproofGens,
+        pc_gens: PedersenGens,
+        transcript: Transcript,
         v: u64,
         v_blinding: &Scalar,
         n: usize,
@@ -159,9 +159,9 @@ impl RangeProof {
     /// passing in a threadsafe RNG.
     #[cfg(feature = "std")]
     pub fn prove_single(
-        bp_gens: &BulletproofGens,
-        pc_gens: &PedersenGens,
-        transcript: &mut Transcript,
+        bp_gens: BulletproofGens,
+        pc_gens: PedersenGens,
+        transcript: Transcript,
         v: u64,
         v_blinding: &Scalar,
         n: usize,
@@ -210,13 +210,13 @@ impl RangeProof {
     ///
     /// // The proof can be chained to an existing transcript.
     /// // Here we create a transcript with a doctest domain separator.
-    /// let mut prover_transcript = Transcript::new(b"doctest example");
+    /// let prover_transcript = Transcript::new(b"doctest example");
     ///
     /// // Create an aggregated 32-bit rangeproof and corresponding commitments.
     /// let (proof, commitments) = RangeProof::prove_multiple(
-    ///     &bp_gens,
-    ///     &pc_gens,
-    ///     &mut prover_transcript,
+    ///     bp_gens.clone(),
+    ///     pc_gens.clone(),
+    ///     prover_transcript,
     ///     &secrets,
     ///     &blindings,
     ///     32,
@@ -232,9 +232,9 @@ impl RangeProof {
     /// # }
     /// ```
     pub fn prove_multiple_with_rng<T: RngCore + CryptoRng>(
-        bp_gens: &BulletproofGens,
-        pc_gens: &PedersenGens,
-        transcript: &mut Transcript,
+        bp_gens: BulletproofGens,
+        pc_gens: PedersenGens,
+        transcript: Transcript,
         values: &[u64],
         blindings: &[Scalar],
         n: usize,
@@ -247,12 +247,12 @@ impl RangeProof {
             return Err(ProofError::WrongNumBlindingFactors);
         }
 
-        let dealer = Dealer::new(bp_gens, pc_gens, transcript, n, values.len())?;
+        let dealer = Dealer::new(bp_gens.clone(), pc_gens.clone(), transcript, n, values.len())?;
 
         let parties: Vec<_> = values
             .iter()
             .zip(blindings.iter())
-            .map(|(&v, &v_blinding)| Party::new(bp_gens, pc_gens, v, v_blinding, n))
+            .map(|(&v, &v_blinding)| Party::new(bp_gens.clone(), pc_gens.clone(), v, v_blinding, n))
             // Collect the iterator of Results into a Result<Vec>, then unwrap it
             .collect::<Result<Vec<_>, _>>()?;
 
@@ -292,9 +292,9 @@ impl RangeProof {
     /// passing in a threadsafe RNG.
     #[cfg(feature = "std")]
     pub fn prove_multiple(
-        bp_gens: &BulletproofGens,
-        pc_gens: &PedersenGens,
-        transcript: &mut Transcript,
+        bp_gens: BulletproofGens,
+        pc_gens: PedersenGens,
+        transcript: Transcript,
         values: &[u64],
         blindings: &[Scalar],
         n: usize,
@@ -654,11 +654,11 @@ mod tests {
             let blindings: Vec<Scalar> = (0..m).map(|_| Scalar::random(&mut rng)).collect();
 
             // 1. Create the proof
-            let mut transcript = Transcript::new(b"AggregatedRangeProofTest");
+            let transcript = Transcript::new(b"AggregatedRangeProofTest");
             let (proof, value_commitments) = RangeProof::prove_multiple(
-                &bp_gens,
-                &pc_gens,
-                &mut transcript,
+                bp_gens.clone(),
+                pc_gens.clone(),
+                transcript,
                 &values,
                 &blindings,
                 n,
@@ -739,27 +739,27 @@ mod tests {
 
         use self::rand::Rng;
         let mut rng = rand::thread_rng();
-        let mut transcript = Transcript::new(b"AggregatedRangeProofTest");
+        let transcript = Transcript::new(b"AggregatedRangeProofTest");
 
         // Parties 0, 2 are honest and use a 32-bit value
         let v0 = rng.gen::<u32>() as u64;
         let v0_blinding = Scalar::random(&mut rng);
-        let party0 = Party::new(&bp_gens, &pc_gens, v0, v0_blinding, n).unwrap();
+        let party0 = Party::new(bp_gens.clone(), pc_gens.clone(), v0, v0_blinding, n).unwrap();
 
         let v2 = rng.gen::<u32>() as u64;
         let v2_blinding = Scalar::random(&mut rng);
-        let party2 = Party::new(&bp_gens, &pc_gens, v2, v2_blinding, n).unwrap();
+        let party2 = Party::new(bp_gens.clone(), pc_gens.clone(), v2, v2_blinding, n).unwrap();
 
         // Parties 1, 3 are dishonest and use a 64-bit value
         let v1 = rng.gen::<u64>();
         let v1_blinding = Scalar::random(&mut rng);
-        let party1 = Party::new(&bp_gens, &pc_gens, v1, v1_blinding, n).unwrap();
+        let party1 = Party::new(bp_gens.clone(), pc_gens.clone(), v1, v1_blinding, n).unwrap();
 
         let v3 = rng.gen::<u64>();
         let v3_blinding = Scalar::random(&mut rng);
-        let party3 = Party::new(&bp_gens, &pc_gens, v3, v3_blinding, n).unwrap();
+        let party3 = Party::new(bp_gens.clone(), pc_gens.clone(), v3, v3_blinding, n).unwrap();
 
-        let dealer = Dealer::new(&bp_gens, &pc_gens, &mut transcript, n, m).unwrap();
+        let dealer = Dealer::new(bp_gens, pc_gens, transcript, n, m).unwrap();
 
         let (party0, bit_com0) = party0.assign_position(0).unwrap();
         let (party1, bit_com1) = party1.assign_position(1).unwrap();
@@ -812,13 +812,13 @@ mod tests {
 
         use self::rand::Rng;
         let mut rng = rand::thread_rng();
-        let mut transcript = Transcript::new(b"AggregatedRangeProofTest");
+        let transcript = Transcript::new(b"AggregatedRangeProofTest");
 
         let v0 = rng.gen::<u32>() as u64;
         let v0_blinding = Scalar::random(&mut rng);
-        let party0 = Party::new(&bp_gens, &pc_gens, v0, v0_blinding, n).unwrap();
+        let party0 = Party::new(bp_gens.clone(), pc_gens.clone(), v0, v0_blinding, n).unwrap();
 
-        let dealer = Dealer::new(&bp_gens, &pc_gens, &mut transcript, n, m).unwrap();
+        let dealer = Dealer::new(bp_gens, pc_gens, transcript, n, m).unwrap();
 
         // Now do the protocol flow as normal....
 
