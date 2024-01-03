@@ -55,7 +55,7 @@ pub mod party;
 /// protocol locally.  That API is exposed in the [`aggregation`](::range_proof_mpc)
 /// module and can be used to perform online aggregation between
 /// parties without revealing secret values to each other.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RangeProof {
     /// Commitment to the bits of the value
     A: CompressedRistretto,
