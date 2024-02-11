@@ -15,6 +15,7 @@ use crate::generators::{BulletproofGens, PedersenGens};
 
 /// A commitment to the bits of a party's value.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Copy)]
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct BitCommitment {
     pub V_j: CompressedRistretto,
     pub(super) A_j: RistrettoPoint,
@@ -23,6 +24,7 @@ pub struct BitCommitment {
 
 /// Challenge values derived from all parties' [`BitCommitment`]s.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Copy)]
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct BitChallenge {
     pub(super) y: Scalar,
     pub(super) z: Scalar,
@@ -30,6 +32,7 @@ pub struct BitChallenge {
 
 /// A commitment to a party's polynomial coefficents.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Copy)]
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct PolyCommitment {
     pub(super) T_1_j: RistrettoPoint,
     pub(super) T_2_j: RistrettoPoint,
@@ -37,6 +40,7 @@ pub struct PolyCommitment {
 
 /// Challenge values derived from all parties' [`PolyCommitment`]s.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Copy)]
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct PolyChallenge {
     pub(super) x: Scalar,
 }
