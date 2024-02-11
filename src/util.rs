@@ -11,11 +11,13 @@ use curve25519_dalek::scalar::Scalar;
 use crate::inner_product_proof::inner_product;
 
 /// Represents a degree-1 vector polynomial \\(\mathbf{a} + \mathbf{b} \cdot x\\).
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct VecPoly1(pub Vec<Scalar>, pub Vec<Scalar>);
 
 /// Represents a degree-3 vector polynomial
 /// \\(\mathbf{a} + \mathbf{b} \cdot x + \mathbf{c} \cdot x^2 + \mathbf{d} \cdot x^3 \\).
 #[cfg(feature = "yoloproofs")]
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct VecPoly3(
     pub Vec<Scalar>,
     pub Vec<Scalar>,
@@ -24,11 +26,13 @@ pub struct VecPoly3(
 );
 
 /// Represents a degree-2 scalar polynomial \\(a + b \cdot x + c \cdot x^2\\)
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct Poly2(pub Scalar, pub Scalar, pub Scalar);
 
 /// Represents a degree-6 scalar polynomial, without the zeroth degree
 /// \\(a \cdot x + b \cdot x^2 + c \cdot x^3 + d \cdot x^4 + e \cdot x^5 + f \cdot x^6\\)
 #[cfg(feature = "yoloproofs")]
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct Poly6 {
     pub t1: Scalar,
     pub t2: Scalar,
@@ -41,6 +45,7 @@ pub struct Poly6 {
 /// Provides an iterator over the powers of a `Scalar`.
 ///
 /// This struct is created by the `exp_iter` function.
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct ScalarExp {
     x: Scalar,
     next_exp_x: Scalar,
