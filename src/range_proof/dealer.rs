@@ -30,6 +30,7 @@ use rand::thread_rng;
 use super::messages::*;
 
 /// Used to construct a dealer for the aggregated rangeproof MPC protocol.
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct Dealer {}
 
 impl Dealer {
@@ -84,6 +85,7 @@ impl Dealer {
 }
 
 /// A dealer waiting for the parties to send their [`BitCommitment`]s.
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct DealerAwaitingBitCommitments {
     bp_gens: BulletproofGens,
     pc_gens: PedersenGens,
@@ -143,6 +145,7 @@ impl DealerAwaitingBitCommitments {
 
 /// A dealer which has sent the [`BitChallenge`] to the parties and
 /// is waiting for their [`PolyCommitment`]s.
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct DealerAwaitingPolyCommitments {
     n: usize,
     m: usize,
@@ -206,6 +209,7 @@ impl DealerAwaitingPolyCommitments {
 /// A dealer which has sent the [`PolyChallenge`] to the parties and
 /// is waiting to aggregate their [`ProofShare`]s into a
 /// [`RangeProof`].
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct DealerAwaitingProofShares {
     n: usize,
     m: usize,

@@ -30,6 +30,7 @@ use rand::thread_rng;
 use super::messages::*;
 
 /// Used to construct a party for the aggregated rangeproof MPC protocol.
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct Party {}
 
 impl Party {
@@ -62,6 +63,7 @@ impl Party {
 }
 
 /// A party waiting for the dealer to assign their position in the aggregation.
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct PartyAwaitingPosition {
     bp_gens: BulletproofGens,
     pc_gens: PedersenGens,
@@ -154,6 +156,7 @@ impl Drop for PartyAwaitingPosition {
 
 /// A party which has committed to the bits of its value
 /// and is waiting for the aggregated value challenge from the dealer.
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct PartyAwaitingBitChallenge {
     n: usize, // bitsize of the range
     v: u64,
@@ -261,6 +264,7 @@ impl Drop for PartyAwaitingBitChallenge {
 
 /// A party which has committed to their polynomial coefficents
 /// and is waiting for the polynomial challenge from the dealer.
+#[cfg_attr(feature = "cloneable", derive(Clone))]
 pub struct PartyAwaitingPolyChallenge {
     offset_zz: Scalar,
     l_poly: util::VecPoly1,
