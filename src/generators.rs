@@ -269,9 +269,9 @@ impl<'a> Iterator for AggregatedGensIter<'a> {
 #[derive(Copy, Clone)]
 pub struct BulletproofGensShare<'a> {
     /// The parent object that this is a view into
-    gens: &'a BulletproofGens,
+    pub gens: &'a BulletproofGens,
     /// Which share we are
-    share: usize,
+    pub share: usize,
 }
 
 impl<'a> BulletproofGensShare<'a> {
