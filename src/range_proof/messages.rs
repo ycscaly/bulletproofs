@@ -24,8 +24,8 @@ pub struct BitCommitment {
 /// Challenge values derived from all parties' [`BitCommitment`]s.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Copy)]
 pub struct BitChallenge {
-    pub(super) y: Scalar,
-    pub(super) z: Scalar,
+    pub y: Scalar,
+    pub z: Scalar,
 }
 
 /// A commitment to a party's polynomial coefficents.
