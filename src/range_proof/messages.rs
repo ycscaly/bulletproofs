@@ -17,8 +17,8 @@ use crate::generators::{BulletproofGens, PedersenGens};
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Copy)]
 pub struct BitCommitment {
     pub V_j: CompressedRistretto,
-    pub(super) A_j: RistrettoPoint,
-    pub(super) S_j: RistrettoPoint,
+    pub A_j: RistrettoPoint,
+    pub S_j: RistrettoPoint,
 }
 
 /// Challenge values derived from all parties' [`BitCommitment`]s.
@@ -31,8 +31,8 @@ pub struct BitChallenge {
 /// A commitment to a party's polynomial coefficents.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, Copy)]
 pub struct PolyCommitment {
-    pub(super) T_1_j: RistrettoPoint,
-    pub(super) T_2_j: RistrettoPoint,
+    pub T_1_j: RistrettoPoint,
+    pub T_2_j: RistrettoPoint,
 }
 
 /// Challenge values derived from all parties' [`PolyCommitment`]s.
@@ -45,11 +45,11 @@ pub struct PolyChallenge {
 /// [`RangeProof`](::RangeProof).
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct ProofShare {
-    pub(super) t_x: Scalar,
-    pub(super) t_x_blinding: Scalar,
-    pub(super) e_blinding: Scalar,
-    pub(super) l_vec: Vec<Scalar>,
-    pub(super) r_vec: Vec<Scalar>,
+    pub t_x: Scalar,
+    pub t_x_blinding: Scalar,
+    pub e_blinding: Scalar,
+    pub l_vec: Vec<Scalar>,
+    pub r_vec: Vec<Scalar>,
 }
 
 impl ProofShare {
