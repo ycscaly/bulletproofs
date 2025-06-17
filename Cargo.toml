@@ -29,7 +29,8 @@ serde = { version = "1", default-features = false, features = ["alloc"] }
 serde_derive = { version = "1", default-features = false }
 thiserror = { version = "1", optional = true }
 merlin = { version = "3", default-features = false }
-clear_on_drop = { version = "0.2", default-features = false }
+getrandom = { version = "0.2", features = ["js"] }
+clear_on_drop = { version = "0.2", default-features = false, features = ["no_cc"], optional = true }
 
 [dev-dependencies]
 hex = "0.3"
@@ -41,9 +42,10 @@ curve25519-dalek = { version = "4.1.1", features = ["digest", "group", "legacy_c
 [features]
 default = ["std"]
 yoloproofs = []
-std = ["rand", "rand/std", "rand/std_rng", "thiserror"]
-nightly = ["subtle/nightly", "clear_on_drop/nightly"]
+std = ["rand", "rand/std", "rand/std_rng", "thiserror", "clear_on_drop"]
+nightly = ["curve25519-dalek/alloc", "subtle/nightly", "clear_on_drop/nightly"]
 docs = ["nightly"]
+cloneable = []
 
 
 [[test]]
