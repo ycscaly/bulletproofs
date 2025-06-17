@@ -13,6 +13,7 @@ use core::iter;
 
 use curve25519_dalek::ristretto::{CompressedRistretto, RistrettoPoint};
 use curve25519_dalek::scalar::Scalar;
+use curve25519_dalek::traits::IsIdentity;
 use merlin::Transcript;
 
 use crate::errors::ProofError;
@@ -595,6 +596,7 @@ fn delta(n: usize, m: usize, y: &Scalar, z: &Scalar) -> Scalar {
 
 #[cfg(test)]
 mod tests {
+    use bincode::config;
     use super::*;
 
     use crate::generators::PedersenGens;
@@ -667,13 +669,13 @@ mod tests {
             .unwrap();
 
             // 2. Return serialized proof and value commitments
-            (bincode::serialize(&proof).unwrap(), value_commitments)
+            (bincode::serde::encode_to_vec(&proof, config::standard()).unwrap(), value_commitments)
         };
 
         // Verifier's scope
         {
             // 3. Deserialize
-            let proof: RangeProof = bincode::deserialize(&proof_bytes).unwrap();
+            let (proof, _): (RangeProof, _) = bincode::serde::decode_from_slice(&proof_bytes, config::standard()).unwrap();
 
             // 4. Verify with the same customization label as above
             let mut transcript = Transcript::new(b"AggregatedRangeProofTest");
