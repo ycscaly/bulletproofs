@@ -13,6 +13,7 @@
 extern crate alloc;
 
 use alloc::vec::Vec;
+#[cfg(feature = "dep:clear_on_drop")]
 use clear_on_drop::clear::Clear;
 use core::iter;
 use curve25519_dalek::ristretto::{CompressedRistretto, RistrettoPoint};
@@ -148,6 +149,7 @@ impl PartyAwaitingPosition {
 }
 
 /// Overwrite secrets with null bytes when they go out of scope.
+#[cfg(feature = "dep:clear_on_drop")]
 impl Drop for PartyAwaitingPosition {
     fn drop(&mut self) {
         self.v.clear();
@@ -242,6 +244,7 @@ impl PartyAwaitingBitChallenge {
 }
 
 /// Overwrite secrets with null bytes when they go out of scope.
+#[cfg(feature = "dep:clear_on_drop")]
 impl Drop for PartyAwaitingBitChallenge {
     fn drop(&mut self) {
         self.v.clear();
@@ -311,6 +314,7 @@ impl PartyAwaitingPolyChallenge {
 }
 
 /// Overwrite secrets with null bytes when they go out of scope.
+#[cfg(feature = "dep:clear_on_drop")]
 impl Drop for PartyAwaitingPolyChallenge {
     fn drop(&mut self) {
         self.v_blinding.clear();

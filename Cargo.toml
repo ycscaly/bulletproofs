@@ -42,7 +42,7 @@ curve25519-dalek = { git = 'https://github.com/dalek-cryptography/curve25519-dal
 [features]
 default = ["std"]
 yoloproofs = []
-std = ["rand", "rand/std", "rand/std_rng", "thiserror", "clear_on_drop"]
+std = ["rand", "rand/std", "rand/std_rng", "thiserror", "dep:clear_on_drop"]
 nightly = ["curve25519-dalek/alloc", "subtle/nightly", "clear_on_drop/nightly"]
 docs = ["nightly"]
 cloneable = []

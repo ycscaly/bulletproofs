@@ -5,6 +5,7 @@ extern crate alloc;
 
 use alloc::vec;
 use alloc::vec::Vec;
+#[cfg(feature = "dep:clear_on_drop")]
 use clear_on_drop::clear::Clear;
 use curve25519_dalek::scalar::Scalar;
 
@@ -172,6 +173,7 @@ impl Poly6 {
     }
 }
 
+#[cfg(feature = "dep:clear_on_drop")]
 impl Drop for VecPoly1 {
     fn drop(&mut self) {
         for e in self.0.iter_mut() {
@@ -183,6 +185,7 @@ impl Drop for VecPoly1 {
     }
 }
 
+#[cfg(feature = "dep:clear_on_drop")]
 impl Drop for Poly2 {
     fn drop(&mut self) {
         self.0.clear();
@@ -191,7 +194,7 @@ impl Drop for Poly2 {
     }
 }
 
-#[cfg(feature = "yoloproofs")]
+#[cfg(all(feature = "yoloproofs", feature = "dep:clear_on_drop"))]
 impl Drop for VecPoly3 {
     fn drop(&mut self) {
         for e in self.0.iter_mut() {
@@ -209,7 +212,7 @@ impl Drop for VecPoly3 {
     }
 }
 
-#[cfg(feature = "yoloproofs")]
+#[cfg(all(feature = "yoloproofs", feature = "dep:clear_on_drop"))]
 impl Drop for Poly6 {
     fn drop(&mut self) {
         self.t1.clear();
