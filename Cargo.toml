@@ -23,13 +23,12 @@ subtle = { version = "2.6", default-features = false }
 sha3 = { version = "0.11.0-rc.0", default-features = false }
 digest = { version = "0.11.0-rc.0", default-features = false }
 rand_core = { version = "0.9", default-features = false }
-rand = { version = "0.9", default-features = false, optional = true, features = ["thread_rng"] }
+rand = { version = "0.9", default-features = false, optional = true }
 byteorder = { version = "1", default-features = false }
 serde = { version = "1", default-features = false, features = ["alloc"] }
 serde_derive = { version = "1", default-features = false }
 thiserror = { version = "2", optional = true }
 merlin = { version = "3", default-features = false }
-getrandom = { version = "0.3", features = ["wasm_js"] }
 clear_on_drop = { version = "0.2", default-features = false, features = ["no_cc"], optional = true }
 
 [dev-dependencies]
@@ -42,11 +41,10 @@ curve25519-dalek = { git = 'https://github.com/dalek-cryptography/curve25519-dal
 [features]
 default = ["std"]
 yoloproofs = []
-std = ["rand", "rand/std", "rand/std_rng", "thiserror", "dep:clear_on_drop"]
+std = ["rand", "rand/std", "rand/std_rng", "rand/thread_rng", "thiserror", "dep:clear_on_drop"]
 nightly = ["curve25519-dalek/alloc", "subtle/nightly", "clear_on_drop/nightly"]
 docs = ["nightly"]
 cloneable = []
-
 
 [[test]]
 name = "range_proof"
