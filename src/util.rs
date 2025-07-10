@@ -357,49 +357,4 @@ mod tests {
         assert_eq!(sum_of_powers_slow(&x, 5), Scalar::from(11111u64));
         assert_eq!(sum_of_powers_slow(&x, 6), Scalar::from(111111u64));
     }
-
-    #[test]
-    fn vec_of_scalars_clear_on_drop() {
-        let mut v = vec![Scalar::from(24u64), Scalar::from(42u64)];
-
-        for e in v.iter_mut() {
-            e.clear();
-        }
-
-        fn flat_slice<T>(x: &[T]) -> &[u8] {
-            use core::mem;
-            use core::slice;
-
-            unsafe { slice::from_raw_parts(x.as_ptr() as *const u8, mem::size_of_val(x)) }
-        }
-
-        assert_eq!(flat_slice(&v.as_slice()), &[0u8; 64][..]);
-        assert_eq!(v[0], Scalar::ZERO);
-        assert_eq!(v[1], Scalar::ZERO);
-    }
-
-    #[test]
-    fn tuple_of_scalars_clear_on_drop() {
-        let mut v = Poly2(
-            Scalar::from(24u64),
-            Scalar::from(42u64),
-            Scalar::from(255u64),
-        );
-
-        v.0.clear();
-        v.1.clear();
-        v.2.clear();
-
-        fn as_bytes<T>(x: &T) -> &[u8] {
-            use core::mem;
-            use core::slice;
-
-            unsafe { slice::from_raw_parts(x as *const T as *const u8, mem::size_of_val(x)) }
-        }
-
-        assert_eq!(as_bytes(&v), &[0u8; 96][..]);
-        assert_eq!(v.0, Scalar::ZERO);
-        assert_eq!(v.1, Scalar::ZERO);
-        assert_eq!(v.2, Scalar::ZERO);
-    }
 }

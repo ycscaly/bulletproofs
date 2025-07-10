@@ -17,7 +17,7 @@ description = "A pure-Rust implementation of Bulletproofs using Ristretto"
 edition = "2018"
 
 [dependencies]
-curve25519-dalek = { git = 'https://github.com/dalek-cryptography/curve25519-dalek', rev = 'b7e4fc0', features = ["digest", "group", "rand_core", "serde"] }
+curve25519-dalek = { version = "5.0.0-pre.0", features = ["digest", "group", "rand_core", "serde"] }
 group = { version = "0.13", default-features = false }
 subtle = { version = "2.6", default-features = false }
 sha3 = { version = "0.11.0-rc.0", default-features = false }
@@ -36,7 +36,7 @@ hex = "0.4"
 criterion = "0.6"
 bincode = {version = "2", features = ["serde"] }
 rand_chacha = "0.9"
-curve25519-dalek = { git = 'https://github.com/dalek-cryptography/curve25519-dalek', rev = 'b7e4fc0', features = ["digest", "group", "legacy_compatibility", "rand_core", "serde"] }
+curve25519-dalek = { version = "5.0.0-pre.0", features = ["digest", "group", "legacy_compatibility", "rand_core", "serde"] }
 
 [features]
 default = ["std"]
