@@ -224,7 +224,7 @@ impl InnerProductProof {
         // 2. Compute 1/(u_k...u_1) and 1/u_k, ..., 1/u_1
 
         let mut challenges_inv = challenges.clone();
-        let allinv = Scalar::batch_invert(&mut challenges_inv);
+        let allinv = Scalar::invert_batch_alloc(challenges_inv.as_mut_slice());
 
         // 3. Compute u_i^2 and (1/u_i)^2
 

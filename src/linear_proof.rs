@@ -282,7 +282,7 @@ impl LinearProof {
 
         // 3. Compute the challenge inverses: 1/x_k, ..., 1/x_1
         let mut challenges_inv = challenges.clone();
-        Scalar::batch_invert(&mut challenges_inv);
+        Scalar::invert_batch_alloc(challenges_inv.as_mut_slice());
 
         Ok((challenges, challenges_inv, b[0]))
     }
