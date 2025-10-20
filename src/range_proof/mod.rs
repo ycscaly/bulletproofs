@@ -247,7 +247,13 @@ impl RangeProof {
             return Err(ProofError::WrongNumBlindingFactors);
         }
 
-        let dealer = Dealer::new(bp_gens.clone(), pc_gens.clone(), transcript, n, values.len())?;
+        let dealer = Dealer::new(
+            bp_gens.clone(),
+            pc_gens.clone(),
+            transcript,
+            n,
+            values.len(),
+        )?;
 
         let parties: Vec<_> = values
             .iter()
@@ -596,8 +602,8 @@ fn delta(n: usize, m: usize, y: &Scalar, z: &Scalar) -> Scalar {
 
 #[cfg(test)]
 mod tests {
-    use bincode::config;
     use super::*;
+    use bincode::config;
 
     use crate::generators::PedersenGens;
 
@@ -669,13 +675,17 @@ mod tests {
             .unwrap();
 
             // 2. Return serialized proof and value commitments
-            (bincode::serde::encode_to_vec(&proof, config::standard()).unwrap(), value_commitments)
+            (
+                bincode::serde::encode_to_vec(&proof, config::standard()).unwrap(),
+                value_commitments,
+            )
         };
 
         // Verifier's scope
         {
             // 3. Deserialize
-            let (proof, _): (RangeProof, _) = bincode::serde::decode_from_slice(&proof_bytes, config::standard()).unwrap();
+            let (proof, _): (RangeProof, _) =
+                bincode::serde::decode_from_slice(&proof_bytes, config::standard()).unwrap();
 
             // 4. Verify with the same customization label as above
             let mut transcript = Transcript::new(b"AggregatedRangeProofTest");

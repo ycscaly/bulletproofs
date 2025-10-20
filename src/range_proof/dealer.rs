@@ -259,8 +259,7 @@ impl DealerAwaitingProofShares {
         let e_blinding: Scalar = proof_shares.iter().map(|ps| ps.e_blinding).sum();
 
         transcript.append_scalar(b"t_x", &t_x);
-        transcript
-            .append_scalar(b"t_x_blinding", &t_x_blinding);
+        transcript.append_scalar(b"t_x_blinding", &t_x_blinding);
         transcript.append_scalar(b"e_blinding", &e_blinding);
 
         // Get a challenge value to combine statements for the IPP
