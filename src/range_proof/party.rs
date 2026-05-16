@@ -25,7 +25,7 @@ use crate::generators::{BulletproofGens, PedersenGens};
 use crate::util;
 
 #[cfg(feature = "std")]
-use rand::thread_rng;
+use rand::rng;
 
 use super::messages::*;
 
@@ -81,7 +81,7 @@ impl PartyAwaitingPosition {
         self,
         j: usize,
     ) -> Result<(PartyAwaitingBitChallenge, BitCommitment), MPCError> {
-        self.assign_position_with_rng(j, &mut thread_rng())
+        self.assign_position_with_rng(j, &mut rng())
     }
 
     /// Assigns a position in the aggregated proof to this party,
@@ -180,7 +180,7 @@ impl PartyAwaitingBitChallenge {
         self,
         vc: &BitChallenge,
     ) -> (PartyAwaitingPolyChallenge, PolyCommitment) {
-        self.apply_challenge_with_rng(vc, &mut thread_rng())
+        self.apply_challenge_with_rng(vc, &mut rng())
     }
 
     /// Receive a [`BitChallenge`] from the dealer and use it to

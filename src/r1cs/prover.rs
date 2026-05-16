@@ -439,8 +439,8 @@ impl<'g, T: BorrowMut<Transcript>> Prover<'g, T> {
                 builder = builder.rekey_with_witness_bytes(b"v_blinding", v_b.as_bytes());
             }
 
-            use rand::thread_rng;
-            builder.finalize(&mut thread_rng())
+            use rand::rng;
+            builder.finalize(&mut rng())
         };
 
         // Commit to the first-phase low-level witness variables.
